@@ -1,0 +1,169 @@
+basePath: /
+definitions:
+  handlers.Task:
+    properties:
+      date:
+        type: string
+      description:
+        type: string
+      done:
+        type: boolean
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+host: localhost:3001
+info:
+  contact: {}
+  description: This is a simple todo list API.
+  title: Todo List API
+  version: "1.0"
+paths:
+  /api/create:
+    post:
+      consumes:
+      - application/json
+      description: Создание новой задачи с предоставленными данными
+      parameters:
+      - description: Объект задачи для создания
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.Task'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.Task'
+        "400":
+          description: Неверный формат запроса
+          schema: {}
+        "500":
+          description: Внутренняя ошибка сервера
+          schema: {}
+      summary: Создание новой задачи
+  /api/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление задачи по ее ID
+      parameters:
+      - description: Идентификатор задачи
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Задача успешно удалена
+          schema:
+            type: string
+        "400":
+          description: Неверный ID
+          schema: {}
+        "404":
+          description: Задача не найдена
+          schema: {}
+      summary: Удаление задачи
+  /api/task/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Получение задачи по ее ID
+      parameters:
+      - description: Идентификатор задачи
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.Task'
+        "400":
+          description: Неверный формат запроса
+          schema: {}
+        "404":
+          description: Задача не найдена
+          schema: {}
+        "500":
+          description: Внутренняя ошибка сервера
+          schema: {}
+      summary: Получение задачи по ID
+  /api/tasks:
+    get:
+      consumes:
+      - application/json
+      description: Получение списка задач на основе определенных критериев
+      parameters:
+      - description: Статус задачи
+        in: query
+        name: status
+        required: true
+        type: string
+      - description: Дата
+        in: query
+        name: date
+        required: true
+        type: string
+      - description: Лимит
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: Смещение
+        in: query
+        name: offset
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список задач
+          schema:
+            items:
+              $ref: '#/definitions/handlers.Task'
+            type: array
+        "400":
+          description: Неверный формат даты или параметров
+          schema: {}
+        "500":
+          description: Внутренняя ошибка сервера
+          schema: {}
+      summary: Получение списка задач
+    put:
+      consumes:
+      - application/json
+      description: Обновление существующей задачи
+      parameters:
+      - description: Объект задачи для обновления
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.Task'
+        "400":
+          description: Неверный формат запроса
+          schema: {}
+        "500":
+          description: Внутренняя ошибка сервера
+          schema: {}
+      summary: Обновление задачи
+swagger: "2.0"

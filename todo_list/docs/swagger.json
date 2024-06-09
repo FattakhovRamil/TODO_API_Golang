@@ -1,0 +1,250 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a simple todo list API.",
+        "title": "Todo List API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:3001",
+    "basePath": "/",
+    "paths": {
+        "/api/create": {
+            "post": {
+                "description": "Создание новой задачи с предоставленными данными",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Создание новой задачи",
+                "parameters": [
+                    {
+                        "description": "Объект задачи для создания",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Task"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат запроса",
+                        "schema": {}
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/api/delete/{id}": {
+            "delete": {
+                "description": "Удаление задачи по ее ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Удаление задачи",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Идентификатор задачи",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Задача успешно удалена",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный ID",
+                        "schema": {}
+                    },
+                    "404": {
+                        "description": "Задача не найдена",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/api/task/{id}": {
+            "get": {
+                "description": "Получение задачи по ее ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Получение задачи по ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Идентификатор задачи",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Task"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат запроса",
+                        "schema": {}
+                    },
+                    "404": {
+                        "description": "Задача не найдена",
+                        "schema": {}
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/api/tasks": {
+            "get": {
+                "description": "Получение списка задач на основе определенных критериев",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Получение списка задач",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Статус задачи",
+                        "name": "status",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Дата",
+                        "name": "date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Лимит",
+                        "name": "limit",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Смещение",
+                        "name": "offset",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Список задач",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.Task"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат даты или параметров",
+                        "schema": {}
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {}
+                    }
+                }
+            },
+            "put": {
+                "description": "Обновление существующей задачи",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Обновление задачи",
+                "parameters": [
+                    {
+                        "description": "Объект задачи для обновления",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Task"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Task"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный формат запроса",
+                        "schema": {}
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера",
+                        "schema": {}
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handlers.Task": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "done": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
