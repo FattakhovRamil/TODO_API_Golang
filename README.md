@@ -37,7 +37,8 @@ API предоставляет следующие функции:
     cd todo_list
 
 ### 2\. Постройте и запустите приложение с помощью Docker Compose
-
+    docker pull postgres:latest
+    docker pull golang:1.21-alpine
     docker-compose up --build
 
 ### 3\. Доступ к приложению находиться по адресу:
